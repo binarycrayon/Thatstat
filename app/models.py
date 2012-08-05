@@ -3,6 +3,7 @@ import logging
 
 from hashlib import md5
 from google.appengine.ext import db
+from google.appengine.ext import ndb
 from google.appengine.api import users
 
 import mc
@@ -139,10 +140,8 @@ class UserPrefs(db.Model):
         mc.cache.get_userprefs(self._user, clear=True)
 
 
-class YourCustomModel(db.Model):
-    userprefs = db.ReferenceProperty(UserPrefs)
+class Project(ndb.Model):
+	name = ndb.StringProperty()
+	
 
-    demo_string_property = db.StringProperty()
-    demo_boolean_property = db.BooleanProperty(default=True)
-    demo_integer_property = db.IntegerProperty(default=1)
-    demo_datetime_property = db.DateTimeProperty(auto_now_add=True)
+
