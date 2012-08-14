@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+
+<project name="appengine-counters" default="test" basedir=".">
+
+    <property environment="env"/>
+    <property name="srcdir" value="${basedir}/src" />
+    <property name="testdir" value="${basedir}/test" />
+    <property name="toolsdir" value="${basedir}/tools" />
+    <property name="tests" value=""/> <!-- use, e.g., "ant test -Dtests=app.domain.my_module" -->
+    <property name="test.verbosity" value="3" />
+    <property name="test.loglevel" value="20" />
+    <property name="python.executable" value="python2.7" />
+
+    <condition property="appenginedir" value="/usr/local/google_appengine">
+        <available type="dir" file="/usr/local/google_appengine" />
+    </condition>
+    <condition property="appenginedir" value="C:\Program Files (x86)\Google\google_appengine">
+        <available type="dir" file="C:\Program Files (x86)\Google\google_appengine\google\appengine" />
+    </condition>
+    <condition property="appenginedir" value="C:\Program Files\Google\google_appengine">
+        <available type="dir" file="C:\Program Files\Google\google_appengine\google\appengine" />
+    </condition>
+
+    <path id="tests.pythonpath.ref">
+        <pathelement path="${env.PYTHONPATH}"/>
+        <pathelement path="${testdir}"/>
+        <pathelement path="${srcdir}"/>
+        <pathelement path="${srcdir}/util"/>
+        <pathelement path="${srcdir}/lib"/>
+        <pathelement path="${basedir}"/>
+        <pathelement path="${appenginedir}"/>
+        <pathelement path="${appenginedir}/lib/yaml/lib"/>
+        <pathelement path="${appenginedir}/lib/fancy_urllib"/>
+        <pathelement path="${appenginedir}/lib/webapp2"/>
+        <pathelement path="${appenginedir}/lib/webob_1_1_1"/>
+        <pathelement path="${appenginedir}/lib/webob"/>
+        <pathelement path="${appenginedir}/lib/simplejson"/>
+        <pathelement path="${toolsdir}"/>
+    </path>
+    <property name="tests.pythonpath" value="${toString:tests.pythonpath.ref}" />
+
+    <target name="test">
+        <exec dir="${basedir}" executable="${python.executable}" failonerror="true">
+            <env key="PYTHONPATH" value="${tests.pythonpath}"/>
+            <env key="UNITTEST_VERBOSITY" value="${test.verbosity}"/>
+            <env key="UNITTEST_LOGLEVEL" value="${test.loglevel}"/>
+            <arg value="${toolsdir}/test_runner.py"/>
+            <arg line="${tests}"/>
+        </exec>
+    </target>
+
+</project>
