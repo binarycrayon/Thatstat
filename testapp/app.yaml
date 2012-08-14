@@ -1,0 +1,11 @@
+application: fantasm-test-high-replication
+version: test-counters
+runtime: python27
+api_version: 1
+threadsafe: trues
+
+handlers:
+- url: /__counters__/.*
+  script: counters.main.APP
+- url: /.*
+  script: main.APP
