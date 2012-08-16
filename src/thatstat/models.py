@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 import logging
 
 from hashlib import md5
@@ -142,5 +142,4 @@ class UserPrefs(db.Model):
 
 class Project(ndb.Model):
     name = ndb.StringProperty()
-
 
